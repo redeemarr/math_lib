@@ -1,4 +1,4 @@
 math_lib
 ====
 
-C++ glsl-style math library in one header file
+C++ GLSL-style math library in one header file
