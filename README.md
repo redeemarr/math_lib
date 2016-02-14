@@ -1,4 +1,4 @@
-math
+math_lib
 ====
 
-vector, matrix and quaternion math
+C++ glsl-style math library in one header file
