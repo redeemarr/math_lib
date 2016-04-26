@@ -15,9 +15,8 @@ inline float radians(float deg) { return deg * pi_constant() / 180.0f; }
 inline float clamp(float v, float min, float max) { return v < min ? min : v > max ? max : v; }
 inline float mix(float a, float b, float t) { return a + (b - a) * t; }
 
-// --------------------------------
-// vec2
-// --------------------------------
+#pragma mark - vec2
+
 struct vec2
 {
 	float x, y;
@@ -27,6 +26,9 @@ struct vec2
 	explicit vec2(float s) : x(s), y(s) {}
 	explicit vec2(float x, float y) : x(x), y(y) {}
 	explicit vec2(vec3 const& v);
+
+	float& operator [] (std::size_t i) { return (&x)[i]; }
+	float const& operator [] (std::size_t i) const { return (&x)[i]; }
 
 	vec2& operator += (float s) { x += s; y += s; return *this; }
 	vec2& operator -= (float s) { x -= s; y -= s; return *this; }
@@ -42,6 +44,10 @@ inline vec2  operator + (vec2 const& v, float s) { return vec2(v.x + s, v.y + s)
 inline vec2  operator - (vec2 const& v, float s) { return vec2(v.x - s, v.y - s); }
 inline vec2  operator * (vec2 const& v, float s) { return vec2(v.x * s, v.y * s); }
 inline vec2  operator / (vec2 const& v, float s) { float const i = 1 / s; return vec2(v.x * i, v.y * i); }
+inline vec2  operator + (float s, vec2 const& v) { return vec2(s + v.x, s + v.y); }
+inline vec2  operator - (float s, vec2 const& v) { return vec2(s - v.x, s - v.y); }
+inline vec2  operator * (float s, vec2 const& v) { return vec2(s * v.x, s * v.y); }
+inline vec2  operator / (float s, vec2 const& v) { return vec2(s / v.x, s / v.y); }
 inline vec2  operator + (vec2 const& a, vec2 const& b) { return vec2(a.x + b.x, a.y + b.y); }
 inline vec2  operator - (vec2 const& a, vec2 const& b) { return vec2(a.x - b.x, a.y - b.y); }
 inline vec2  operator * (vec2 const& a, vec2 const& b) { return vec2(a.x * b.x, a.y * b.y); }
@@ -57,7 +63,6 @@ inline float dot(vec2 const& a, vec2 const& b) { return a.x * b.x + a.y * b.y; }
 inline float length(vec2 const& v) { return std::sqrt(dot(v, v)); }
 inline float distance(vec2 const& a, vec2 const& b) { return length(a - b); }
 inline vec2  normalize(vec2 const& v) { return v / length(v); }
-inline float cross(vec2 const& a, vec2 const& b) { return a.x * b.y - a.y * b.x; }
 inline vec2  mix(vec2 const& a, vec2 const& b, float t) { return vec2(mix(a.x, b.x, t), mix(a.y, b.y, t)); }
 inline vec2  reflect(vec2 const& i, vec2 const& n) { return i - n * dot(n, i) * 2; }
 
@@ -68,9 +73,8 @@ inline vec2 refract(vec2 const& i, vec2 const& n, float eta)
 	return k < 0 ? vec2(0) : (i * eta - n * (eta * dni + std::sqrt(k)));
 }
 
-// --------------------------------
-// vec3
-// --------------------------------
+#pragma mark - vec3
+
 struct vec3
 {
 	float x, y, z;
@@ -81,6 +85,9 @@ struct vec3
 	explicit vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 	explicit vec3(vec2 const& v, float z) : x(v.x), y(v.y), z(z) {}
 	explicit vec3(vec4 const&);
+
+	float& operator [] (std::size_t i) { return (&x)[i]; }
+	float const& operator [] (std::size_t i) const { return (&x)[i]; }
 
 	vec3& operator += (float s) { x += s; y += s; z += s; return *this; }
 	vec3& operator -= (float s) { x -= s; y -= s; z -= s; return *this; }
@@ -96,6 +103,10 @@ inline vec3  operator + (vec3 const& v, float s) { return vec3(v.x + s, v.y + s,
 inline vec3  operator - (vec3 const& v, float s) { return vec3(v.x - s, v.y - s, v.z - s); }
 inline vec3  operator * (vec3 const& v, float s) { return vec3(v.x * s, v.y * s, v.z * s); }
 inline vec3  operator / (vec3 const& v, float s) { float const i = 1 / s; return vec3(v.x * i, v.y * i, v.z * i); }
+inline vec3  operator + (float s, vec3 const& v) { return vec3(s + v.x, s + v.y, s + v.z); }
+inline vec3  operator - (float s, vec3 const& v) { return vec3(s - v.x, s - v.y, s - v.z); }
+inline vec3  operator * (float s, vec3 const& v) { return vec3(s * v.x, s * v.y, s * v.z); }
+inline vec3  operator / (float s, vec3 const& v) { return vec3(s / v.x, s / v.y, s / v.z); }
 inline vec3  operator + (vec3 const& a, vec3 const& b) { return vec3(a.x + b.x, a.y + b.y, a.z + b.z); }
 inline vec3  operator - (vec3 const& a, vec3 const& b) { return vec3(a.x - b.x, a.y - b.y, a.z - b.z); }
 inline vec3  operator * (vec3 const& a, vec3 const& b) { return vec3(a.x * b.x, a.y * b.y, a.z * b.z); }
@@ -122,9 +133,8 @@ inline vec3 refract(vec3 const& i, vec3 const& n, float eta)
 	return k < 0 ? vec3(0) : (i * eta - n * (eta * dni + std::sqrt(k)));
 }
 
-// --------------------------------
-// vec4
-// --------------------------------
+#pragma mark - vec4
+
 struct vec4
 {
 	float x, y, z, w;
@@ -135,6 +145,9 @@ struct vec4
 	explicit vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 	explicit vec4(vec2 const& v, float z, float w) : x(v.x), y(v.y), z(z), w(w) {}
 	explicit vec4(vec3 const& v, float w) : x(v.x), y(v.y), z(v.z), w(w) {}
+
+	float& operator [] (std::size_t i) { return (&x)[i]; }
+	float const& operator [] (std::size_t i) const { return (&x)[i]; }
 
 	vec4& operator += (float s) { x += s; y += s; z += s; w += s; return *this; }
 	vec4& operator -= (float s) { x -= s; y -= s; z -= s; w -= s; return *this; }
@@ -150,6 +163,10 @@ inline vec4  operator + (vec4 const& v, float s) { return vec4(v.x + s, v.y + s,
 inline vec4  operator - (vec4 const& v, float s) { return vec4(v.x - s, v.y - s, v.z - s, v.w - s); }
 inline vec4  operator * (vec4 const& v, float s) { return vec4(v.x * s, v.y * s, v.z * s, v.w * s); }
 inline vec4  operator / (vec4 const& v, float s) { float const i = 1 / s; return vec4(v.x * i, v.y * i, v.z * i, v.w * i); }
+inline vec4  operator + (float s, vec4 const& v) { return vec4(s + v.x, s + v.y, s + v.z, s + v.w); }
+inline vec4  operator - (float s, vec4 const& v) { return vec4(s - v.x, s - v.y, s - v.z, s - v.w); }
+inline vec4  operator * (float s, vec4 const& v) { return vec4(s * v.x, s * v.y, s * v.z, s * v.w); }
+inline vec4  operator / (float s, vec4 const& v) { return vec4(s / v.x, s / v.y, s / v.z, s / v.w); }
 inline vec4  operator + (vec4 const& a, vec4 const& b) { return vec4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w); }
 inline vec4  operator - (vec4 const& a, vec4 const& b) { return vec4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w); }
 inline vec4  operator * (vec4 const& a, vec4 const& b) { return vec4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w); }
@@ -175,9 +192,8 @@ inline vec4 refract(vec4 const& i, vec4 const& n, float eta)
 	return k < 0 ? vec4(0) : (i * eta - n * (eta * dni + std::sqrt(k)));
 }
 
-// --------------------------------
-// mat2
-// --------------------------------
+#pragma mark - mat2
+
 struct mat2
 {
 	vec2 x, y;
@@ -185,9 +201,16 @@ struct mat2
 	mat2() {}
 	explicit mat2(vec2 const& x, vec2 const& y) : x(x), y(y) {}
 
+	vec2& operator [] (std::size_t i) { return (&x)[i]; }
+	vec2 const& operator [] (std::size_t i) const { return (&x)[i]; }
+
 	float determinant() const { return x.x * y.y - x.y * y.x; }
 	
-	static mat2 identity() { return mat2(vec2(1, 0), vec2(0, 1)); }
+	static mat2 const& identity()
+	{
+		static mat2 mat(vec2(1, 0), vec2(0, 1));
+		return mat;
+	}
 
 	static mat2 from_angle(float angle)
 	{
@@ -236,9 +259,8 @@ inline mat2 operator * (mat2 const& a, mat2 const& b)
 			a.y.x * b.x.y + a.y.y * b.y.y));
 }
 
-// --------------------------------
-// mat3
-// --------------------------------
+#pragma mark - mat3
+
 struct mat3
 {
 	vec3 x, y, z;
@@ -249,6 +271,14 @@ struct mat3
 	explicit mat3(mat4 const&);
 	explicit mat3(quat const&);
 
+	vec3& operator [] (std::size_t i) { return (&x)[i]; }
+	vec3 const& operator [] (std::size_t i) const { return (&x)[i]; }
+
+	float operator () (int r, int c) const
+	{
+		return (*this)[c][r];
+	}
+
 	float determinant() const
 	{
 		return
@@ -257,9 +287,10 @@ struct mat3
 			x.z * (y.x * z.y - y.y * z.x);
 	}
 
-	static mat3 identity()
+	static mat3 const& identity()
 	{
-		return mat3(vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1));
+		static mat3 mat(vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1));
+		return mat;
 	}
 
 	static mat3 from_axis_angle(vec3 const& axis, float angle)
@@ -359,9 +390,7 @@ inline mat3 operator * (mat3 const& a, mat3 const& b)
 		a.z.x * b.x.z + a.z.y * b.y.z + a.z.z * b.z.z));
 }
 
-// --------------------------------
-// mat4
-// --------------------------------
+#pragma mark - mat4
 
 mat4 operator * (mat4 const& a, mat4 const& b);
 
@@ -373,9 +402,13 @@ struct mat4
 	explicit mat4(vec4 const& x, vec4 const& y, vec4 const& z, vec4 const& w) : x(x), y(y), z(z), w(w) {}
 	explicit mat4(mat3 const& m, vec4 const& w) : x(m.x, 0), y(m.y, 0), z(m.z, 0), w(w) {}
 
-	static mat4 identity()
+	vec4& operator [] (std::size_t i) { return (&x)[i]; }
+	vec4 const& operator [] (std::size_t i) const { return (&x)[i]; }
+
+	static mat4 const& identity()
 	{
-		return mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+		static mat4 mat(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+		return mat;
 	}
 
 	static mat4 frustum(float left, float right, float bottom, float top, float znear, float zfar)
@@ -524,9 +557,7 @@ inline mat4 operator * (mat4 const& a, mat4 const& b)
 			a.w.x * b.x.w + a.w.y * b.y.w + a.w.z * b.z.w + a.w.w * b.w.w));
 }
 
-// --------------------------------
-// quaternion
-// --------------------------------
+#pragma mark - quat
 
 quat operator * (quat const& a, quat const& b);
 quat normalize(quat const& q);
@@ -539,11 +570,46 @@ struct quat
 	explicit quat(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 	explicit quat(vec3 const& v, float s) : x(v.x), y(v.y), z(v.z), w(s) {}
 
+	explicit quat(mat3 const& m) // XXX: needs to be checked
+	{
+		float tr = m[0][0] + m[1][1] + m[2][2], h;
+		if (tr >= 0)
+		{
+			h = sqrtf(tr + 1);
+			w = 0.5f * h;
+			h = 0.5f / h;
+
+			x = (m[1][2] - m[2][1]) * h;
+			y = (m[2][0] - m[0][2]) * h;
+			z = (m[0][1] - m[1][0]) * h;
+		}
+		else
+		{
+			unsigned int i = 0;
+			if (m[1][1] > m[0][0]) i = 1;
+			if (m[2][2] > m[i][i]) i = 2;
+			int j = (i + 1) % 3;
+			int k = (i + 2) % 3;
+
+			float* q = &x;
+			h = sqrtf((m[i][i] - (m[j][j] + m[k][k])) + 1.0);
+			q[i] = 0.5f * h;
+			h = 0.5f / h;
+			q[j] = (m[j][i] + m[i][j]) * h;
+			q[k] = (m[i][k] + m[k][i]) * h;
+			w    = (m[j][k] - m[k][j]) * h;
+		}
+	}
+
 	quat& operator *= (quat const& q) { return *this = *this * q; }
 
 	vec3 vector() const { return vec3(x, y, z); }
 	float norm() const { return std::sqrt(x * x + y * y + z * z + w * w); }
-	static quat identity() { return quat(0, 0, 0, 1); }
+	static quat const& identity()
+	{
+		static quat q(0, 0, 0, 1);
+		return q;
+	}
 
 	static quat from_euler_angles(float x, float y, float z)
 	{
@@ -658,7 +724,7 @@ inline quat slerp(quat const& a, quat const& b, float t)
 	}
 }
 
-// --------------------------------
+#pragma mark - ---
 
 inline vec2::vec2(vec3 const& v) : x(v.x), y(v.y) {}
 
