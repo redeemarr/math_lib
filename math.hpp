@@ -122,7 +122,7 @@ inline float dot(vec3 const& a, vec3 const& b) { return a.x * b.x + a.y * b.y + 
 inline float length(vec3 const& v) { return std::sqrt(dot(v, v)); }
 inline float distance(vec3 const& a, vec3 const& b) { return length(a - b); }
 inline vec3  normalize(vec3 const& v) { return v / length(v); }
-inline vec3  cross(vec3 const& a, vec3 const& b) { return vec3( a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
+inline vec3  cross(vec3 const& a, vec3 const& b) { return vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
 inline vec3  mix(vec3 const& a, vec3 const& b, float t) { return vec3(mix(a.x, b.x, t), mix(a.y, b.y, t), mix(a.z, b.z, t)); }
 inline vec3  reflect(vec3 const& i, vec3 const& n) { return i - n * dot(n, i) * 2; }
 
@@ -205,7 +205,7 @@ struct mat2
 	vec2 const& operator [] (std::size_t i) const { return (&x)[i]; }
 
 	float determinant() const { return x.x * y.y - x.y * y.x; }
-	
+
 	static mat2 const& identity()
 	{
 		static mat2 mat(vec2(1, 0), vec2(0, 1));
@@ -232,8 +232,8 @@ inline mat2 inverse(mat2 const& m)
 	{
 		float const id = 1 / d;
 		return mat2(
-			vec2( m.y.y, -m.x.y) * id,
-			vec2(-m.y.x,  m.x.x) * id);
+			vec2(m.y.y, -m.x.y) * id,
+			vec2(-m.y.x, m.x.x) * id);
 	}
 	else
 	{
@@ -252,11 +252,11 @@ inline mat2 operator * (mat2 const& a, mat2 const& b)
 {
 	return mat2(
 		vec2(
-			a.x.x * b.x.x + a.x.y * b.y.x,
-			a.x.x * b.x.y + a.x.y * b.y.y),
+		a.x.x * b.x.x + a.x.y * b.y.x,
+		a.x.x * b.x.y + a.x.y * b.y.y),
 		vec2(
-			a.y.x * b.x.x + a.y.y * b.y.x,
-			a.y.x * b.x.y + a.y.y * b.y.y));
+		a.y.x * b.x.x + a.y.y * b.y.x,
+		a.y.x * b.x.y + a.y.y * b.y.y));
 }
 
 #pragma mark - mat3
@@ -298,23 +298,23 @@ struct mat3
 		float const xy = axis.x * axis.y;
 		float const xz = axis.x * axis.z;
 		float const yz = axis.y * axis.z;
-		
+
 		float s = std::sin(angle);
 		float c = 1 - std::cos(angle);
 
 		return mat3(
 			vec3(
-				1 + c * (axis.x * axis.x - 1),
-				-axis.z * s + c * xy,
-				axis.y * s + c * xz),
+			1 + c * (axis.x * axis.x - 1),
+			-axis.z * s + c * xy,
+			axis.y * s + c * xz),
 			vec3(
-				axis.z * s + c * xy,
-				1 + c * (axis.y * axis.y - 1),
-				-axis.x * s + c * yz),
+			axis.z * s + c * xy,
+			1 + c * (axis.y * axis.y - 1),
+			-axis.x * s + c * yz),
 			vec3(
-				-axis.y * s + c * xz,
-				axis.x * s + c * yz,
-				1 + c * (axis.z * axis.z - 1)));
+			-axis.y * s + c * xz,
+			axis.x * s + c * yz,
+			1 + c * (axis.z * axis.z - 1)));
 	}
 
 	static mat3 from_euler_angles(float x, float y, float z)
@@ -345,19 +345,19 @@ inline mat3 inverse(mat3 const& m)
 		float const id = 1 / d;
 		return mat3(
 			vec3(
-				 id * (m.y.y * m.z.z - m.y.z * m.z.y),
-				-id * (m.x.y * m.z.z - m.x.z * m.z.y),
-				 id * (m.x.y * m.y.z - m.x.z * m.y.y)),
-
-			 vec3(
-				-id * (m.y.x * m.z.z - m.y.z * m.z.x),
-				 id * (m.x.x * m.z.z - m.x.z * m.z.x),
-				-id * (m.x.x * m.y.z - m.x.z * m.y.x)),
+			id * (m.y.y * m.z.z - m.y.z * m.z.y),
+			-id * (m.x.y * m.z.z - m.x.z * m.z.y),
+			id * (m.x.y * m.y.z - m.x.z * m.y.y)),
 
 			vec3(
-				 id * (m.y.x * m.z.y - m.y.y * m.z.x),
-				-id * (m.x.x * m.z.y - m.x.y * m.z.x),
-				 id * (m.x.x * m.y.y - m.x.y * m.y.x)));
+			-id * (m.y.x * m.z.z - m.y.z * m.z.x),
+			id * (m.x.x * m.z.z - m.x.z * m.z.x),
+			-id * (m.x.x * m.y.z - m.x.z * m.y.x)),
+
+			vec3(
+			id * (m.y.x * m.z.y - m.y.y * m.z.x),
+			-id * (m.x.x * m.z.y - m.x.y * m.z.x),
+			id * (m.x.x * m.y.y - m.x.y * m.y.x)));
 	}
 	else
 	{
@@ -427,12 +427,12 @@ struct mat4
 	static mat4 ortho(float left, float right, float bottom, float top, float znear, float zfar)
 	{
 		float const rl = right - left;
-		float const tb = top   - bottom;
-		float const fn = zfar  - znear;
+		float const tb = top - bottom;
+		float const fn = zfar - znear;
 
 		return mat4(
-			vec4(2 / rl, 0, 0,  0),
-			vec4(0, 2 / tb, 0,  0),
+			vec4(2 / rl, 0, 0, 0),
+			vec4(0, 2 / tb, 0, 0),
 			vec4(0, 0, -2 / fn, 0),
 			vec4(-(right + left) / rl, -(top + bottom) / tb, -(zfar + znear) / fn, 1));
 	}
@@ -451,7 +451,7 @@ struct mat4
 		vec3 const x = normalize(cross(up, z));
 		vec3 const y = normalize(cross(z, x));
 
-		mat4 r = mat4(vec4(x.x, y.x, z.x, 0), vec4(x.y, y.y, z.y, 0), vec4(x.z, y.z, z.z, 0), vec4(0,0,0,1));
+		mat4 r = mat4(vec4(x.x, y.x, z.x, 0), vec4(x.y, y.y, z.y, 0), vec4(x.z, y.z, z.z, 0), vec4(0, 0, 0, 1));
 		mat4 t = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(eye * -1, 1));
 
 		return t * r;
@@ -471,25 +471,25 @@ inline mat4 inverse(mat4 const& m)
 {
 	float k[24] =
 	{
-		m.z.z * m.w.w,		m.w.z * m.z.w,		m.y.z * m.w.w,		m.w.z * m.y.w,
-		m.y.z * m.z.w,		m.z.z * m.y.w,		m.x.z * m.w.w,		m.w.z * m.x.w,
-		m.x.z * m.z.w,		m.z.z * m.x.w,		m.x.z * m.y.w,		m.y.z * m.x.w,
-		m.z.x * m.w.y,		m.w.x * m.z.y,		m.y.x * m.w.y,		m.w.x * m.y.y,
-		m.y.x * m.z.y,		m.z.x * m.y.y,		m.x.x * m.w.y,		m.w.x * m.x.y,
-		m.x.x * m.z.y,		m.z.x * m.x.y,		m.x.x * m.y.y,		m.y.x * m.x.y
+		m.z.z * m.w.w, m.w.z * m.z.w, m.y.z * m.w.w, m.w.z * m.y.w,
+		m.y.z * m.z.w, m.z.z * m.y.w, m.x.z * m.w.w, m.w.z * m.x.w,
+		m.x.z * m.z.w, m.z.z * m.x.w, m.x.z * m.y.w, m.y.z * m.x.w,
+		m.z.x * m.w.y, m.w.x * m.z.y, m.y.x * m.w.y, m.w.x * m.y.y,
+		m.y.x * m.z.y, m.z.x * m.y.y, m.x.x * m.w.y, m.w.x * m.x.y,
+		m.x.x * m.z.y, m.z.x * m.x.y, m.x.x * m.y.y, m.y.x * m.x.y
 	};
 
 	mat4 r;
 
-	r.x.x = (k[0]  * m.y.y + k[3]  * m.z.y + k[4]  * m.w.y) - (k[1]  * m.y.y + k[2]  * m.z.y + k[5]  * m.w.y);
-	r.x.y = (k[1]  * m.x.y + k[6]  * m.z.y + k[9]  * m.w.y) - (k[0]  * m.x.y + k[7]  * m.z.y + k[8]  * m.w.y);
-	r.x.z = (k[2]  * m.x.y + k[7]  * m.y.y + k[10] * m.w.y) - (k[3]  * m.x.y + k[6]  * m.y.y + k[11] * m.w.y);
-	r.x.w = (k[5]  * m.x.y + k[8]  * m.y.y + k[11] * m.z.y) - (k[4]  * m.x.y + k[9]  * m.y.y + k[10] * m.z.y);
+	r.x.x = (k[0] * m.y.y + k[3] * m.z.y + k[4] * m.w.y) - (k[1] * m.y.y + k[2] * m.z.y + k[5] * m.w.y);
+	r.x.y = (k[1] * m.x.y + k[6] * m.z.y + k[9] * m.w.y) - (k[0] * m.x.y + k[7] * m.z.y + k[8] * m.w.y);
+	r.x.z = (k[2] * m.x.y + k[7] * m.y.y + k[10] * m.w.y) - (k[3] * m.x.y + k[6] * m.y.y + k[11] * m.w.y);
+	r.x.w = (k[5] * m.x.y + k[8] * m.y.y + k[11] * m.z.y) - (k[4] * m.x.y + k[9] * m.y.y + k[10] * m.z.y);
 
-	r.y.x = (k[1]  * m.y.x + k[2]  * m.z.x + k[5]  * m.w.x) - (k[0]  * m.y.x + k[3]  * m.z.x + k[4]  * m.w.x);
-	r.y.y = (k[0]  * m.x.x + k[7]  * m.z.x + k[8]  * m.w.x) - (k[1]  * m.x.x + k[6]  * m.z.x + k[9]  * m.w.x);
-	r.y.z = (k[3]  * m.x.x + k[6]  * m.y.x + k[11] * m.w.x) - (k[2]  * m.x.x + k[7]  * m.y.x + k[10] * m.w.x);
-	r.y.w = (k[4]  * m.x.x + k[9]  * m.y.x + k[10] * m.z.x) - (k[5]  * m.x.x + k[8]  * m.y.x + k[11] * m.z.x);
+	r.y.x = (k[1] * m.y.x + k[2] * m.z.x + k[5] * m.w.x) - (k[0] * m.y.x + k[3] * m.z.x + k[4] * m.w.x);
+	r.y.y = (k[0] * m.x.x + k[7] * m.z.x + k[8] * m.w.x) - (k[1] * m.x.x + k[6] * m.z.x + k[9] * m.w.x);
+	r.y.z = (k[3] * m.x.x + k[6] * m.y.x + k[11] * m.w.x) - (k[2] * m.x.x + k[7] * m.y.x + k[10] * m.w.x);
+	r.y.w = (k[4] * m.x.x + k[9] * m.y.x + k[10] * m.z.x) - (k[5] * m.x.x + k[8] * m.y.x + k[11] * m.z.x);
 
 	r.z.x = (k[12] * m.y.w + k[15] * m.z.w + k[16] * m.w.w) - (k[13] * m.y.w + k[14] * m.z.w + k[17] * m.w.w);
 	r.z.y = (k[13] * m.x.w + k[18] * m.z.w + k[21] * m.w.w) - (k[12] * m.x.w + k[19] * m.z.w + k[20] * m.w.w);
@@ -536,25 +536,25 @@ inline mat4 operator * (mat4 const& a, mat4 const& b)
 {
 	return mat4(
 		vec4(
-			a.x.x * b.x.x + a.x.y * b.y.x + a.x.z * b.z.x + a.x.w * b.w.x,
-			a.x.x * b.x.y + a.x.y * b.y.y + a.x.z * b.z.y + a.x.w * b.w.y,
-			a.x.x * b.x.z + a.x.y * b.y.z + a.x.z * b.z.z + a.x.w * b.w.z,
-			a.x.x * b.x.w + a.x.y * b.y.w + a.x.z * b.z.w + a.x.w * b.w.w),
+		a.x.x * b.x.x + a.x.y * b.y.x + a.x.z * b.z.x + a.x.w * b.w.x,
+		a.x.x * b.x.y + a.x.y * b.y.y + a.x.z * b.z.y + a.x.w * b.w.y,
+		a.x.x * b.x.z + a.x.y * b.y.z + a.x.z * b.z.z + a.x.w * b.w.z,
+		a.x.x * b.x.w + a.x.y * b.y.w + a.x.z * b.z.w + a.x.w * b.w.w),
 		vec4(
-			a.y.x * b.x.x + a.y.y * b.y.x + a.y.z * b.z.x + a.y.w * b.w.x,
-			a.y.x * b.x.y + a.y.y * b.y.y + a.y.z * b.z.y + a.y.w * b.w.y,
-			a.y.x * b.x.z + a.y.y * b.y.z + a.y.z * b.z.z + a.y.w * b.w.z,
-			a.y.x * b.x.w + a.y.y * b.y.w + a.y.z * b.z.w + a.y.w * b.w.w),
+		a.y.x * b.x.x + a.y.y * b.y.x + a.y.z * b.z.x + a.y.w * b.w.x,
+		a.y.x * b.x.y + a.y.y * b.y.y + a.y.z * b.z.y + a.y.w * b.w.y,
+		a.y.x * b.x.z + a.y.y * b.y.z + a.y.z * b.z.z + a.y.w * b.w.z,
+		a.y.x * b.x.w + a.y.y * b.y.w + a.y.z * b.z.w + a.y.w * b.w.w),
 		vec4(
-			a.z.x * b.x.x + a.z.y * b.y.x + a.z.z * b.z.x + a.z.w * b.w.x,
-			a.z.x * b.x.y + a.z.y * b.y.y + a.z.z * b.z.y + a.z.w * b.w.y,
-			a.z.x * b.x.z + a.z.y * b.y.z + a.z.z * b.z.z + a.z.w * b.w.z,
-			a.z.x * b.x.w + a.z.y * b.y.w + a.z.z * b.z.w + a.z.w * b.w.w),
+		a.z.x * b.x.x + a.z.y * b.y.x + a.z.z * b.z.x + a.z.w * b.w.x,
+		a.z.x * b.x.y + a.z.y * b.y.y + a.z.z * b.z.y + a.z.w * b.w.y,
+		a.z.x * b.x.z + a.z.y * b.y.z + a.z.z * b.z.z + a.z.w * b.w.z,
+		a.z.x * b.x.w + a.z.y * b.y.w + a.z.z * b.z.w + a.z.w * b.w.w),
 		vec4(
-			a.w.x * b.x.x + a.w.y * b.y.x + a.w.z * b.z.x + a.w.w * b.w.x,
-			a.w.x * b.x.y + a.w.y * b.y.y + a.w.z * b.z.y + a.w.w * b.w.y,
-			a.w.x * b.x.z + a.w.y * b.y.z + a.w.z * b.z.z + a.w.w * b.w.z,
-			a.w.x * b.x.w + a.w.y * b.y.w + a.w.z * b.z.w + a.w.w * b.w.w));
+		a.w.x * b.x.x + a.w.y * b.y.x + a.w.z * b.z.x + a.w.w * b.w.x,
+		a.w.x * b.x.y + a.w.y * b.y.y + a.w.z * b.z.y + a.w.w * b.w.y,
+		a.w.x * b.x.z + a.w.y * b.y.z + a.w.z * b.z.z + a.w.w * b.w.z,
+		a.w.x * b.x.w + a.w.y * b.y.w + a.w.z * b.z.w + a.w.w * b.w.w));
 }
 
 #pragma mark - quat
@@ -597,7 +597,7 @@ struct quat
 			h = 0.5f / h;
 			q[j] = (m[j][i] + m[i][j]) * h;
 			q[k] = (m[i][k] + m[k][i]) * h;
-			w    = (m[j][k] - m[k][j]) * h;
+			w = (m[j][k] - m[k][j]) * h;
 		}
 	}
 
@@ -609,6 +609,18 @@ struct quat
 	{
 		static quat q(0, 0, 0, 1);
 		return q;
+	}
+
+	void to_euler_angles(float& ax, float& ay, float& az)
+	{
+		float x2 = x * x;
+		float y2 = y * y;
+		float z2 = z * z;
+		float w2 = w * w;
+
+		az = atan2(2.0 * (x * y + z * w), (x2 - y2 - z2 + w2));
+		ax = atan2(2.0 * (y * z + x * w), (-x2 - y2 + z2 + w2));
+		ay = asin(-2.0 * (x * z - y * w));
 	}
 
 	static quat from_euler_angles(float x, float y, float z)
